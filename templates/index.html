@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — AI CMDB System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2><i class="fa-solid fa-database me-2"></i>AI-Powered CMDB Management</h2>
+  <p class="text-muted">Intelligent Infrastructure Onboarding &amp; CMDB Automation Platform</p>
+</div>
+
+<!-- KPI Cards -->
+<div class="row g-4 mb-4">
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card stat-blue">
+      <div class="stat-icon"><i class="fa-solid fa-file-csv"></i></div>
+      <div class="stat-value">{{ stats.total_uploaded }}</div>
+      <div class="stat-label">Records Uploaded</div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card stat-purple">
+      <div class="stat-icon"><i class="fa-solid fa-robot"></i></div>
+      <div class="stat-value">{{ stats.total_predicted }}</div>
+      <div class="stat-label">CI Classes Predicted</div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card stat-green">
+      <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+      <div class="stat-value">{{ stats.total_inserted }}</div>
+      <div class="stat-label">Inserted to CMDB</div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card stat-red">
+      <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <div class="stat-value">{{ stats.total_errors }}</div>
+      <div class="stat-label">Insert Errors</div>
+    </div>
+  </div>
+</div>
+
+<!-- Workflow Steps -->
+<div class="card mb-4">
+  <div class="card-header"><i class="fa-solid fa-sitemap me-2"></i>Onboarding Workflow</div>
+  <div class="card-body">
+    <div class="workflow-steps">
+      <div class="workflow-step">
+        <div class="step-icon step-blue"><i class="fa-solid fa-upload"></i></div>
+        <div class="step-label">1. Upload CSV/Excel</div>
+      </div>
+      <div class="workflow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+      <div class="workflow-step">
+        <div class="step-icon step-purple"><i class="fa-solid fa-brain"></i></div>
+        <div class="step-label">2. ML Prediction</div>
+      </div>
+      <div class="workflow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+      <div class="workflow-step">
+        <div class="step-icon step-orange"><i class="fa-solid fa-clipboard-check"></i></div>
+        <div class="step-label">3. Review &amp; Approve</div>
+      </div>
+      <div class="workflow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+      <div class="workflow-step">
+        <div class="step-icon step-green"><i class="fa-solid fa-cloud-upload-alt"></i></div>
+        <div class="step-label">4. Push to ServiceNow</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row g-3">
+  <div class="col-md-4">
+    <a href="{{ url_for('upload') }}" class="action-card">
+      <i class="fa-solid fa-file-arrow-up fa-2x mb-3 text-primary"></i>
+      <h5>Upload Inventory</h5>
+      <p class="text-muted small">Import CSV or Excel with infrastructure data</p>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{{ url_for('predict_view') }}" class="action-card">
+      <i class="fa-solid fa-microchip fa-2x mb-3 text-purple"></i>
+      <h5>Run ML Prediction</h5>
+      <p class="text-muted small">Auto-classify CI types using RandomForest</p>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{{ url_for('chatbot_page') }}" class="action-card">
+      <i class="fa-solid fa-comments fa-2x mb-3 text-success"></i>
+      <h5>CMDB AI Chatbot</h5>
+      <p class="text-muted small">Query your CMDB using natural language</p>
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}Predictions — AI CMDB System{% endblock %}
+
+{% block content %}
+<div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+  <div>
+    <h2><i class="fa-solid fa-robot me-2"></i>ML Prediction Results</h2>
+    <p class="text-muted mb-0">Review predicted CI classes and approve records for CMDB insertion</p>
+  </div>
+  <div class="d-flex gap-2">
+    {% if not records[0].predicted_class is defined %}
+    <form method="POST">
+      <button type="submit" class="btn btn-primary">
+        <i class="fa-solid fa-microchip me-1"></i>Run Prediction
+      </button>
+    </form>
+    {% endif %}
+    <a href="{{ url_for('upload') }}" class="btn btn-outline-secondary">
+      <i class="fa-solid fa-upload me-1"></i>New Upload
+    </a>
+  </div>
+</div>
+
+{% if records %}
+<form method="POST" action="{{ url_for('insert') }}" id="approvalForm">
+  <!-- Toolbar -->
+  <div class="card mb-3">
+    <div class="card-body py-2 d-flex align-items-center gap-3 flex-wrap">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="selectAll" onchange="toggleAll(this)">
+        <label class="form-check-label fw-semibold" for="selectAll">Select All</label>
+      </div>
+      <span class="text-muted small">|</span>
+      <span class="text-muted small"><span id="selectedCount">0</span> records selected</span>
+      <button type="submit" class="btn btn-success btn-sm ms-auto" id="insertBtn" disabled>
+        <i class="fa-solid fa-cloud-upload-alt me-1"></i>Push to ServiceNow
+      </button>
+    </div>
+  </div>
+
+  <!-- Prediction Table -->
+  <div class="card">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped mb-0 align-middle">
+          <thead>
+            <tr>
+              <th width="40">✓</th>
+              <th>#</th>
+              <th>Name</th>
+              <th>OS</th>
+              <th>Environment</th>
+              <th>Predicted Class</th>
+              <th>Confidence</th>
+              <th>CMDB Table</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for rec in records %}
+            <tr>
+              <td>
+                <input type="checkbox" name="approve" value="{{ loop.index0 }}"
+                       class="form-check-input row-check" onchange="updateCount()">
+              </td>
+              <td class="text-muted small">{{ loop.index }}</td>
+              <td><strong>{{ rec.get('name', '—') }}</strong></td>
+              <td class="small text-muted">{{ rec.get('os', '—') | truncate(25) }}</td>
+              <td>
+                {% set env = rec.get('environment', 'unknown') %}
+                <span class="badge env-{{ env }}">{{ env }}</span>
+              </td>
+              <td>
+                {% if rec.get('predicted_class') %}
+                  <span class="badge ci-class-{{ rec.predicted_class }}">
+                    {{ rec.predicted_class | capitalize }}
+                  </span>
+                {% else %}
+                  <span class="text-muted">—</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if rec.get('confidence') %}
+                  {% set conf = (rec.confidence * 100) | round(1) %}
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="progress flex-grow-1" style="height:6px; width:80px;">
+                      <div class="progress-bar
+                        {% if conf >= 80 %}bg-success
+                        {% elif conf >= 60 %}bg-warning
+                        {% else %}bg-danger{% endif %}"
+                        style="width: {{ conf }}%"></div>
+                    </div>
+                    <span class="small">{{ conf }}%</span>
+                  </div>
+                {% else %}—{% endif %}
+              </td>
+              <td><code class="small">{{ rec.get('snow_table', '—') }}</code></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer text-muted small">
+      Total records: <strong>{{ records | length }}</strong>
+    </div>
+  </div>
+</form>
+{% else %}
+<div class="empty-state">
+  <i class="fa-solid fa-inbox fa-3x mb-3 text-muted"></i>
+  <h5>No records loaded</h5>
+  <a href="{{ url_for('upload') }}" class="btn btn-primary mt-2">Upload a file</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+function toggleAll(cb) {
+  document.querySelectorAll('.row-check').forEach(c => c.checked = cb.checked);
+  updateCount();
+}
+function updateCount() {
+  const checked = document.querySelectorAll('.row-check:checked').length;
+  document.getElementById('selectedCount').textContent = checked;
+  document.getElementById('insertBtn').disabled = checked === 0;
+  document.getElementById('selectAll').indeterminate =
+    checked > 0 && checked < document.querySelectorAll('.row-check').length;
+}
+</script>
+{% endblock %}

@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block title %}AI Chatbot — AI CMDB System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2><i class="fa-solid fa-comments me-2"></i>CMDB AI Assistant</h2>
+  <p class="text-muted">Ask questions about your CMDB in natural language — powered by Claude AI</p>
+</div>
+
+<div class="row g-4">
+  <!-- Chat Window -->
+  <div class="col-lg-8">
+    <div class="card chat-card">
+      <div class="card-header d-flex align-items-center gap-2">
+        <div class="status-dot bg-success"></div>
+        <span>Claude AI — CMDB Assistant</span>
+        <button class="btn btn-sm btn-outline-secondary ms-auto" onclick="clearChat()">
+          <i class="fa-solid fa-trash-can me-1"></i>Clear
+        </button>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <!-- Welcome message -->
+        <div class="chat-msg bot-msg">
+          <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
+          <div class="msg-bubble">
+            <p class="mb-1"><strong>Hello! I'm your CMDB AI Assistant.</strong></p>
+            <p class="mb-0 small">I can query your ServiceNow CMDB and answer questions about your infrastructure. Try asking me something!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <div class="input-group">
+          <input type="text" id="chatInput" class="form-control"
+                 placeholder="Ask about your CMDB… e.g. Show all Linux servers"
+                 onkeydown="if(event.key==='Enter') sendMessage()" />
+          <button class="btn btn-primary" onclick="sendMessage()">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Suggestions -->
+  <div class="col-lg-4">
+    <div class="card mb-3">
+      <div class="card-header"><i class="fa-solid fa-lightbulb me-2"></i>Example Queries</div>
+      <div class="card-body p-0">
+        <div class="list-group list-group-flush">
+          {% set examples = [
+            'Show all Linux servers',
+            'Show production databases',
+            'Which CIs are non-operational?',
+            'Show cloud resources',
+            'Count servers by environment',
+            'Show all network devices',
+            'List storage devices',
+            'Show all applications',
+            'What is CSDM?',
+            'What is a CI class in ServiceNow?'
+          ] %}
+          {% for ex in examples %}
+          <button class="list-group-item list-group-item-action small py-2 text-start"
+                  onclick="askExample('{{ ex }}')">
+            <i class="fa-solid fa-arrow-right me-2 text-primary"></i>{{ ex }}
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><i class="fa-solid fa-circle-info me-2"></i>CMDB Tables Queried</div>
+      <div class="card-body p-0">
+        <table class="table table-sm mb-0">
+          <thead><tr><th>CI Type</th><th>Table</th></tr></thead>
+          <tbody>
+            <tr><td>Server</td><td><code>cmdb_ci_server</code></td></tr>
+            <tr><td>Database</td><td><code>cmdb_ci_database</code></td></tr>
+            <tr><td>Network</td><td><code>cmdb_ci_netgear</code></td></tr>
+            <tr><td>Cloud</td><td><code>cmdb_ci_vm_instance</code></td></tr>
+            <tr><td>Application</td><td><code>cmdb_ci_appl</code></td></tr>
+            <tr><td>Storage</td><td><code>cmdb_ci_storage_device</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const messagesEl = document.getElementById('chatMessages');
+
+function appendMessage(text, isUser) {
+  const div = document.createElement('div');
+  div.className = `chat-msg ${isUser ? 'user-msg' : 'bot-msg'}`;
+  const avatar = isUser
+    ? '<div class="msg-avatar user-avatar"><i class="fa-solid fa-user"></i></div>'
+    : '<div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>';
+  const bubble = `<div class="msg-bubble">${text.replace(/\n/g, '<br>')}</div>`;
+  div.innerHTML = isUser ? bubble + avatar : avatar + bubble;
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function appendTyping() {
+  const div = document.createElement('div');
+  div.className = 'chat-msg bot-msg';
+  div.id = 'typingIndicator';
+  div.innerHTML = `
+    <div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
+    <div class="msg-bubble typing-bubble">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>`;
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typingIndicator');
+  if (t) t.remove();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+
+  appendMessage(msg, true);
+  appendTyping();
+
+  try {
+    const resp = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: msg })
+    });
+    const data = await resp.json();
+    removeTyping();
+    appendMessage(data.response || data.error || 'No response.', false);
+  } catch (err) {
+    removeTyping();
+    appendMessage('⚠️ Error connecting to AI service.', false);
+  }
+}
+
+function askExample(text) {
+  document.getElementById('chatInput').value = text;
+  sendMessage();
+}
+
+function clearChat() {
+  messagesEl.innerHTML = '';
+  appendMessage('<strong>Chat cleared.</strong> Ask me anything about your CMDB!', false);
+}
+</script>
+{% endblock %}

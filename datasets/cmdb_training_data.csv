@@ -1,0 +1,102 @@
+name,os,manufacturer,description,environment,ip_address,class
+web-server-01,Red Hat Enterprise Linux 8,Dell,Apache web server for frontend,production,10.0.1.10,server
+db-server-01,Windows Server 2019,HP,SQL Server primary database,production,10.0.1.20,database
+firewall-core-01,Cisco IOS 15.2,Cisco,Core network firewall,production,10.0.2.1,network
+aws-ec2-prod-01,Amazon Linux 2,Amazon,EC2 instance for microservices,production,10.0.3.10,cloud
+erp-app-01,Linux,Oracle,Oracle ERP application server,production,10.0.4.10,application
+san-storage-01,N/A,EMC,SAN storage array 100TB,production,10.0.5.10,storage
+app-server-02,Ubuntu 20.04 LTS,Dell,Node.js backend server,development,192.168.1.11,server
+mysql-db-01,CentOS 7,HP,MySQL 8.0 database,development,192.168.1.21,database
+switch-core-01,Juniper JunOS 20.1,Juniper,Core layer 3 switch,production,10.0.2.2,network
+azure-vm-prod-01,Windows Server 2022,Microsoft,Azure VM for web hosting,production,10.1.1.10,cloud
+crm-app-01,Linux,Salesforce,CRM application server,production,10.0.4.11,application
+nas-storage-01,N/A,NetApp,NAS file storage 50TB,development,192.168.1.51,storage
+api-server-01,Ubuntu 22.04 LTS,Dell,REST API server,production,10.0.1.30,server
+postgres-db-01,Red Hat Enterprise Linux 8,HP,PostgreSQL 14 database,production,10.0.1.40,database
+router-core-01,Cisco IOS-XE 16.9,Cisco,Core WAN router,production,10.0.2.3,network
+gcp-vm-prod-01,Debian 11,Google,GCP Compute Engine,production,10.2.1.10,cloud
+hr-app-01,Windows Server 2019,SAP,SAP HR application,production,10.0.4.12,application
+backup-storage-01,N/A,Veritas,Backup storage appliance 200TB,production,10.0.5.11,storage
+mail-server-01,Ubuntu 20.04 LTS,Dell,Postfix mail server,production,10.0.1.50,server
+oracle-db-01,Oracle Linux 8,Oracle,Oracle 19c database,production,10.0.1.60,database
+access-switch-01,Cisco IOS 15.1,Cisco,Access layer switch,production,10.0.2.10,network
+aws-rds-prod-01,N/A,Amazon,AWS RDS MySQL instance,production,10.0.3.20,cloud
+finance-app-01,Linux,SAP,SAP Finance application,production,10.0.4.13,application
+object-storage-01,N/A,IBM,IBM Cloud Object Storage,production,10.0.5.20,storage
+ftp-server-01,CentOS 8,HP,SFTP file transfer server,production,10.0.1.70,server
+mongo-db-01,Ubuntu 20.04 LTS,Dell,MongoDB 5.0 replica set,production,10.0.1.80,database
+load-balancer-01,F5 TMOS 16.1,F5 Networks,Application load balancer,production,10.0.2.20,network
+azure-sql-prod-01,N/A,Microsoft,Azure SQL Managed Instance,production,10.1.1.20,cloud
+inventory-app-01,Windows Server 2016,Dell,Inventory management app,production,10.0.4.14,application
+tape-storage-01,N/A,Quantum,Quantum tape library,production,10.0.5.30,storage
+proxy-server-01,Ubuntu 22.04 LTS,Dell,Squid reverse proxy,production,10.0.1.90,server
+redis-db-01,Linux,Redis Labs,Redis 7.0 cache cluster,production,10.0.1.100,database
+wan-optimizer-01,Riverbed OS 9.8,Riverbed,WAN optimization appliance,production,10.0.2.30,network
+aws-lambda-01,N/A,Amazon,AWS Lambda serverless function,production,10.0.3.30,cloud
+payroll-app-01,Linux,Workday,Workday payroll application,production,10.0.4.15,application
+flash-storage-01,N/A,Pure Storage,All-flash storage array,production,10.0.5.40,storage
+monitoring-server-01,CentOS 7,Dell,Nagios monitoring server,production,10.0.1.110,server
+cassandra-db-01,Ubuntu 20.04 LTS,HP,Apache Cassandra 4.0,production,10.0.1.120,database
+vpn-concentrator-01,Cisco ASA 9.14,Cisco,Cisco VPN concentrator,production,10.0.2.40,network
+gcp-gke-01,Container OS,Google,GKE Kubernetes cluster,production,10.2.1.20,cloud
+billing-app-01,Windows Server 2019,Oracle,Oracle billing application,production,10.0.4.16,application
+hybrid-storage-01,N/A,HPE,HPE Nimble hybrid storage,production,10.0.5.50,storage
+build-server-01,Ubuntu 20.04 LTS,Dell,Jenkins CI/CD server,development,192.168.1.12,server
+elasticsearch-db-01,CentOS 8,Elastic,Elasticsearch 8.0 cluster,production,10.0.1.130,database
+ids-ips-01,Snort 3.0,Cisco,Cisco Firepower IDS/IPS,production,10.0.2.50,network
+azure-aks-01,Linux,Microsoft,Azure Kubernetes Service,production,10.1.1.30,cloud
+ticketing-app-01,Linux,ServiceNow,ServiceNow ITSM platform,production,10.0.4.17,application
+archive-storage-01,N/A,Iron Mountain,Digital archive storage,production,10.0.5.60,storage
+log-server-01,Ubuntu 22.04 LTS,Dell,ELK Stack log server,production,10.0.1.140,server
+mariadb-01,CentOS 7,HP,MariaDB 10.6 database,development,192.168.1.22,database
+wireless-ap-01,Cisco IOS 15.3,Cisco,Cisco Aironet access point,production,10.0.2.60,network
+aws-ecs-01,N/A,Amazon,AWS ECS container service,production,10.0.3.40,cloud
+reporting-app-01,Windows Server 2019,Microsoft,SSRS reporting application,production,10.0.4.18,application
+cdp-storage-01,N/A,Zerto,Continuous data protection,production,10.0.5.70,storage
+test-server-01,Ubuntu 20.04 LTS,Dell,Test environment server,testing,192.168.2.10,server
+db2-prod-01,AIX 7.2,IBM,IBM DB2 11.5 database,production,10.0.1.150,database
+ips-sensor-01,Cisco IOS 12.4,Cisco,IPS sensor device,production,10.0.2.70,network
+aws-fargate-01,N/A,Amazon,AWS Fargate container,production,10.0.3.50,cloud
+analytics-app-01,Linux,Tableau,Tableau analytics platform,production,10.0.4.19,application
+gluster-storage-01,N/A,Red Hat,GlusterFS distributed storage,production,10.0.5.80,storage
+ci-server-01,Ubuntu 22.04 LTS,Dell,GitLab CI runner server,development,192.168.1.13,server
+hbase-db-01,Linux,Apache,Apache HBase on Hadoop,production,10.0.1.160,database
+network-tap-01,Gigamon OS 5.13,Gigamon,Network packet broker,production,10.0.2.80,network
+gcp-cloud-run-01,N/A,Google,GCP Cloud Run service,production,10.2.1.30,cloud
+document-app-01,Windows Server 2019,Microsoft,SharePoint document mgmt,production,10.0.4.20,application
+dedup-storage-01,N/A,Dell,Data Domain deduplication,production,10.0.5.90,storage
+dev-server-01,Fedora 36,Dell,Developer workstation server,development,192.168.1.14,server
+neo4j-db-01,Ubuntu 20.04 LTS,Neo4j,Neo4j graph database,development,192.168.1.23,database
+proxy-firewall-01,Check Point R81,Check Point,Check Point firewall,production,10.0.2.90,network
+azure-container-01,N/A,Microsoft,Azure Container Instance,production,10.1.1.40,cloud
+workflow-app-01,Linux,Nintex,Nintex workflow platform,production,10.0.4.21,application
+tiering-storage-01,N/A,Infinidat,Infinidat storage array,production,10.0.5.100,storage
+staging-server-01,Ubuntu 20.04 LTS,HP,Staging environment server,staging,10.0.10.10,server
+influxdb-01,Ubuntu 22.04 LTS,InfluxData,InfluxDB time-series database,production,10.0.1.170,database
+sdn-controller-01,OpenDaylight 0.12,Red Hat,SDN network controller,production,10.0.2.100,network
+aws-aurora-01,N/A,Amazon,AWS Aurora Serverless v2,production,10.0.3.60,cloud
+portal-app-01,Windows Server 2022,Microsoft,Customer portal application,production,10.0.4.22,application
+nfs-storage-01,N/A,NetApp,NetApp NFS storage volume,production,10.0.5.110,storage
+backup-server-01,Windows Server 2019,HP,Veeam backup server,production,10.0.1.180,server
+teradata-db-01,Linux,Teradata,Teradata data warehouse,production,10.0.1.190,database
+edge-router-01,Cisco IOS-XR 7.3,Cisco,Edge peering router,production,10.0.2.110,network
+azure-ml-01,N/A,Microsoft,Azure Machine Learning,production,10.1.1.50,cloud
+api-gateway-01,Linux,Kong,Kong API gateway platform,production,10.0.4.23,application
+ceph-storage-01,N/A,Red Hat,Ceph distributed storage cluster,production,10.0.5.120,storage
+k8s-master-01,Ubuntu 22.04 LTS,Dell,Kubernetes master node,production,10.0.1.200,server
+clickhouse-db-01,CentOS 8,Yandex,ClickHouse analytics DB,production,10.0.1.210,database
+nsg-01,Palo Alto PAN-OS 10.1,Palo Alto,Next-gen security gateway,production,10.0.2.120,network
+aws-sagemaker-01,N/A,Amazon,AWS SageMaker ML platform,production,10.0.3.70,cloud
+mobile-app-backend-01,Linux,Apple,iOS/Android backend API,production,10.0.4.24,application
+vsan-storage-01,N/A,VMware,VMware vSAN datastore,production,10.0.5.130,storage
+container-host-01,CentOS 8,Dell,Docker container host,production,10.0.1.220,server
+sybase-db-01,Linux,SAP,SAP Sybase ASE database,production,10.0.1.230,database
+ddos-protection-01,Arbor Networks APS 7.0,Netscout,DDoS mitigation device,production,10.0.2.130,network
+gcp-bigquery-01,N/A,Google,GCP BigQuery data warehouse,production,10.2.1.40,cloud
+integration-app-01,Linux,MuleSoft,MuleSoft ESB platform,production,10.0.4.25,application
+iscsi-storage-01,N/A,StarWind,iSCSI storage target,production,10.0.5.140,storage
+smtp-server-01,Ubuntu 20.04 LTS,HP,SMTP relay server,production,10.0.1.240,server
+cockroachdb-01,Ubuntu 22.04 LTS,CockroachLabs,CockroachDB distributed SQL,production,10.0.1.250,database
+spine-switch-01,Arista EOS 4.27,Arista,Spine layer switch data center,production,10.0.2.140,network
+aws-glue-01,N/A,Amazon,AWS Glue ETL service,production,10.0.3.80,cloud
+notification-app-01,Linux,Twilio,Twilio notification service,production,10.0.4.26,application

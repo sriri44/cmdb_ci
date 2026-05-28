@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}Results Dashboard — AI CMDB System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2><i class="fa-solid fa-chart-bar me-2"></i>CMDB Insertion Results</h2>
+  <p class="text-muted">Summary of records pushed to ServiceNow CMDB</p>
+</div>
+
+<!-- KPI Row -->
+<div class="row g-3 mb-4">
+  <div class="col-sm-4">
+    <div class="stat-card stat-blue">
+      <div class="stat-icon"><i class="fa-solid fa-list"></i></div>
+      <div class="stat-value">{{ stats.total }}</div>
+      <div class="stat-label">Total Predicted</div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="stat-card stat-green">
+      <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+      <div class="stat-value">{{ stats.success }}</div>
+      <div class="stat-label">Successfully Inserted</div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="stat-card stat-red">
+      <div class="stat-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+      <div class="stat-value">{{ stats.errors }}</div>
+      <div class="stat-label">Failed Inserts</div>
+    </div>
+  </div>
+</div>
+
+<!-- Charts -->
+<div class="row g-4 mb-4">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header"><i class="fa-solid fa-pie-chart me-2"></i>CI Class Distribution</div>
+      <div class="card-body" style="height:260px;">
+        <canvas id="classChart"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header"><i class="fa-solid fa-bar-chart me-2"></i>Environment Breakdown</div>
+      <div class="card-body" style="height:260px;">
+        <canvas id="envChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Results Table -->
+{% if results %}
+<div class="card">
+  <div class="card-header"><i class="fa-solid fa-table me-2"></i>ServiceNow Insert Log</div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-sm table-hover mb-0 align-middle">
+        <thead>
+          <tr><th>CI Name</th><th>CMDB Table</th><th>Status</th><th>sys_id</th><th>Message</th></tr>
+        </thead>
+        <tbody>
+          {% for r in results %}
+          <tr>
+            <td><strong>{{ r.get('name', '—') }}</strong></td>
+            <td><code class="small">{{ r.get('table', '—') }}</code></td>
+            <td>
+              {% if r.get('status') == 'success' %}
+                <span class="badge bg-success">✅ Success</span>
+              {% else %}
+                <span class="badge bg-danger">❌ Error</span>
+              {% endif %}
+            </td>
+            <td><code class="small text-muted">{{ r.get('sys_id', '—') }}</code></td>
+            <td class="small text-muted">{{ r.get('error', '') }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="empty-state">
+  <i class="fa-solid fa-cloud-upload-alt fa-3x mb-3 text-muted"></i>
+  <h5>No inserts yet</h5>
+  <p class="text-muted">Approve records on the Predict page to push them to ServiceNow.</p>
+  <a href="{{ url_for('predict_view') }}" class="btn btn-primary mt-2">Go to Predictions</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+const classData = {{ stats.class_counts | tojson }};
+const envData   = {{ stats.env_counts   | tojson }};
+
+const PALETTE = ['#3b82f6','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4'];
+
+if (Object.keys(classData).length) {
+  new Chart(document.getElementById('classChart'), {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(classData),
+      datasets: [{ data: Object.values(classData), backgroundColor: PALETTE, borderWidth: 2 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'right' } } }
+  });
+}
+
+if (Object.keys(envData).length) {
+  new Chart(document.getElementById('envChart'), {
+    type: 'bar',
+    data: {
+      labels: Object.keys(envData),
+      datasets: [{ label: 'CIs', data: Object.values(envData),
+        backgroundColor: PALETTE, borderRadius: 6 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+  });
+}
+</script>
+{% endblock %}
